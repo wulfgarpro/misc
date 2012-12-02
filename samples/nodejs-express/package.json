@@ -1,0 +1,9 @@
+{
+  "name": "node-express",
+  "description": "test app using express and node",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x"
+  }
+}
