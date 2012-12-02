@@ -10,10 +10,11 @@ var fs   = require('fs');
 var host = 'localhost', 
     port = 80;
 
+// directory for storing snippets
 var store = 'data';
 
 // mimic me a client
-var client = require('./client.js');
+//var client = require('./client.js');
 
 http.Server(function(req, res) {
     var respond = function(answer) {
@@ -21,12 +22,17 @@ http.Server(function(req, res) {
         res.end(answer.msg);
     };
 
-    var snippet;
+    req.on('data', function(chunk) {
+        console.log("SERVER: " + chunk);
+        persistSnippet(chunk, respond);
+    });
+
+    /*var snippet;
     if((snippet = url.parse(req.url,true).query.snippet)) {
         persistSnippet(snippet, respond);
     } else {
         res.end();
-    }    
+    }*/    
 }).listen(port, host);
 console.log('Server launched ' + host + ':' + port);
 
@@ -36,7 +42,7 @@ console.log('Server launched ' + host + ':' + port);
 function persistSnippet(snippet, respond) {
     // persist! 
     var name = getRandomFileName();
-    fs.writeFile(store + '/' + name, snippet, function(err) {
+    fs.writeFile(store + '/' + name + ".json", snippet, function(err) {
         if(err) throw err;
         respond(resFactory(200, 'Successfully saved snippet to codr.\n' + 'File name: ' + name));
     });
