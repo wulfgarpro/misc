@@ -1,25 +1,20 @@
-var store = {
-	'snippets' : ['test snippet 1', 'test snippet 2']
-};
+var constructor = function(title, code, language, tags) {
+	this.title = title ? title : '';
+	this.code = code;
+	this.language = language;
+	this.tags = tags ? tags.split(",") : '';
 
+	this.toHtmlString = function() {
+		var out = "<div><p><b>" + this.title + "</b></p>";
+		out += "<p><pre>" + this.code + "</pre></p>";
+		out += "<span style='font-size: -1'>" + this.language + "</span><br/>";
+		if(this.tags) {
+			out += "<span style='font-size: -1'>" + this.tags + "</span>";
+		}
+		out += "</div>";
 
-//////////////////////
-//  PUBLIC METHODS  //
-//////////////////////
-exports.index = function() {
-	return 'available routes:<br/>GET /snippet<br/>PUT /snippet';
-};
-
-exports.addSnippet = function(content) {
-	if(content) {
-		store.snippets.push(content);	
+		return out;
 	}
-};
-
-exports.getAllSnippets = function() {
-	return store.snippets;
-};
-
-exports.format = function(snippet) {
-	return '<li>'+snippet+'</li>';
 }
+
+module.exports=constructor;
