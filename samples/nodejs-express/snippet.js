@@ -1,4 +1,4 @@
-var constructor = function(title, code, language, tags) {
+exports.Snippet = function(title, code, language, tags) {
 	this.title = title ? title : '';
 	this.code = code;
 	this.language = language;
@@ -16,5 +16,3 @@ var constructor = function(title, code, language, tags) {
 		return out;
 	}
 }
-
-module.exports=constructor;

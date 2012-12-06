@@ -1,5 +1,5 @@
 var constants = require('./constants');
-var Snippet = require('./snippet');
+var Snippet = require('./snippet').Snippet;
 
 var store = {
 	'snippets' : []
@@ -34,7 +34,6 @@ exports.format = function(s) {
 
 exports.parseSnippet = function(content) {
 	if(content) {
-		//content = JSON.parse(content);
 		//validate the snippet
 		if(content.code) {
 			var s = new Snippet(
@@ -44,6 +43,10 @@ exports.parseSnippet = function(content) {
 				content.tags ? content.tags : null
 			);
 			this.addSnippet(s);
-		}	
+			console.log('snippet added');
+		}
+		else {
+			console.log('unable to add snippet');
+		}
 	}
 }

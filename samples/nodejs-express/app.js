@@ -2,6 +2,8 @@ var express = require('express');
 var main = require('./main');
 var app = express();
 
+app.use(express.bodyParser());
+
 // default route
 app.get('/', function(req, res){
 	res.send(main.index());
@@ -21,17 +23,27 @@ app.get('/snippet', function(req, res){
   res.send(output);
 });
 
-// post new snippet route
-app.post('/snippet', function(req, res){
-	console.log(req.param('title'));
+/**
+ * <p>Route for PUTting a new snippet.</p>
+ * <p>Expects a JSON object of the form:</p>
+ * <pre>
+ * {
+ *   "code":"the snippet code"
+ * }
+ * </pre>
+ *
+ * @return 200 OK if snippet was added, 400 Bad Request otherwise
+ */
+app.put('/snippet', function(req, res){
+	
 	if(req.body) {
-		console.log('recieved request to add ' + req.body.snippet);
+		main.parseSnippet(req.body);
+		res.send(200, 'snippet added');
 	} else {
 		console.log('got nothin');
 	}
-	console.log(req.param('snippet'))
-	main.parseSnippet(req.body);
-  	res.send('function not yet available');
+	
+  	res.send(400, 'error adding snippet');
 });
 
 
