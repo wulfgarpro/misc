@@ -1,68 +1,66 @@
 /*
  * A simple nodejs application showing basic PUT/GET 
- * functionality without any non conventional modules.
+ * functionality without any unconventional modules.
  */
 
+// modules
 var http = require('http');
 var url  = require('url');
 var fs   = require('fs');
 
-var host = 'localhost', 
-    port = 80;
+// a Snippet
+var Snippet = require('./snippet.js');
 
-// directory for storing snippets
-var store = 'data';
+var HOST_NAME = 'localhost', 
+    PORT = 80;
 
-// mimic me a client
-//var client = require('./client.js');
+var STORE_DIR = 'data';
 
 http.Server(function(req, res) {
-    var respond = function(answer) {
-        res.writeHead(answer.code);
-        res.end(answer.msg);
-    };
-
     req.on('data', function(chunk) {
-        console.log("SERVER: " + chunk);
-        persistSnippet(chunk, respond);
-    });
+        console.log('SERVER: ' + chunk);
+        chunk = JSON.parse(chunk);
 
-    /*var snippet;
-    if((snippet = url.parse(req.url,true).query.snippet)) {
-        persistSnippet(snippet, respond);
-    } else {
-        res.end();
-    }*/    
-}).listen(port, host);
-console.log('Server launched ' + host + ':' + port);
+        // build a Snippet from a PUT
+        var snippet = new Snippet(chunk.syntax, chunk.code);
+         
+        try {
+            persistSnippet(snippet, function(name) {
+                res.writeHead(200);
+                res.end('Successfully saved snippet to codr. \n' + 'File name: ' + name);
+            });
+        } catch (err) {
+            res.writeHead(503);
+            res.end('An error occured fulfilling your request. \n' + err.message);
+        }
+    });
+}).listen(PORT, HOST_NAME);
+console.log('Server launched ' + HOST_NAME + ':' + PORT);
 
 /*
  * Persists a code snippet as JSON.
  */
-function persistSnippet(snippet, respond) {
+function persistSnippet(snippet, res) {
+    if (!(snippet.syntax) || !(snippet.code)) {
+        throw new Error('Your Snippet is malformed. Please supply a syntax and code parameter.');
+    }
+
     // persist! 
     var name = getRandomFileName();
-    fs.writeFile(store + '/' + name + ".json", snippet, function(err) {
-        if(err) throw err;
-        respond(resFactory(200, 'Successfully saved snippet to codr.\n' + 'File name: ' + name));
+    fs.writeFile(STORE_DIR + '/' + name + '.json', JSON.stringify(snippet), function(err) {
+        // something bad happened
+        if (err) {
+            throw err;
+        }
+        res(name);
     });
 }
 
 /*
- * Quick helper.
+ * Helper to generate a random name. 
  */
 function getRandomFileName() {
     var num = Math.random() * 10000;
     return String(num).replace('.','');
-}
-
-/*
- * Constructs a HTTP server response.
- */
-function resFactory(code, msg) {
-    return {
-        'code': code,
-        'msg': msg
-    };
 }
 
