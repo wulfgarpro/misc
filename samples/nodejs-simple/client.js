@@ -11,12 +11,12 @@ var HOST_NAME = 'localhost',
     console.log('Client called!');
     
     var options = {
-        hostname: 'localhost',
-        port: '80',
-        path: '/snippets',
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
+        "hostname": 'localhost',
+        "port": '80',
+        "path": '/snippets',
+        "method": 'PUT',
+        "headers": {
+            "Content-Type": "application/json"
         }
     };
 
