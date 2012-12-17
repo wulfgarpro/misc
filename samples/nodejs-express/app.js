@@ -1,6 +1,6 @@
-var express = require('express');
-var main = require('./main');
-var app = express();
+var express = require('express'),
+	main = require('./main'),
+	app = express();
 
 app.use(express.bodyParser());
 
