@@ -1,10 +1,6 @@
-describe('A snippet', function() {
-    it('can be added', function() {
-    });
+var snippet = require('../../app.js');
 
-    it('can be retrieved', function() {
-    });
-
-    it('can be removed', function() {
+describe('Snippet', function() {
+    it('can be constructed', function() {
     });
 });

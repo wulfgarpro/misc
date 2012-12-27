@@ -1,7 +1,7 @@
-describe('A simple test suite', function() {
+describe('Simple', function() {
     var val = true;
 
-    it('val should be true', function() {
+    it('is simple', function() {
         expect(val).toBe(true);
     });
 });
