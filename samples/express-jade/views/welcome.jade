@@ -1,0 +1,10 @@
+extends layout
+block content
+    div Welcome to codr, give me code.
+        form(method='post', action='/snippets')
+            div
+                p
+                    input(type='text')
+                    input(type='submit')
+    div#snippets
+        p test
