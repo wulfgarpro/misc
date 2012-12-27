@@ -3,3 +3,4 @@ rendered HTML.
 
 Usage: 
 * npm start
+* npm test
