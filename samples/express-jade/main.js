@@ -1,21 +1,21 @@
 // modules
-var cache = require('memory-cache')
-  , fs = require('fs')
-  , constants = require('./constants')
-  , Snippet = require('./snippet');
+var cache = require('memory-cache'), 
+    fs = require('fs'),
+    constants = require('./constants'),
+    Snippet = require('./snippet');
 
 var STORE_DIR = 'data';
 
 /*
  * Persists a code snippet as JSON to disk, and caches it.
  */
-function persistSnippet(snippet) {
+exports._persistSnippet = function(snippet) {
     // persist! 
     var name;
     if(snippet.name) {
         name = snippet.name;
     } else {
-        snippet.name = getRandomFileName();
+        snippet.name = this._getRandomFileName();
         name = snippet.name;
     }
 
@@ -27,14 +27,14 @@ function persistSnippet(snippet) {
     return name;
 }
 
-function cacheSnippet(snippet) {
+exports._cacheSnippet = function(snippet) {
     cache.put(snippet.name, snippet, 2000); // 2 seconds
 }
 
 /*
  * Helper to generate a random name. 
  */
-function getRandomFileName() {
+exports._getRandomFileName = function() {
     var num = Math.random() * 10000;
     return String(num).replace('.', '');
 }
@@ -43,7 +43,7 @@ function getRandomFileName() {
  * Store a snippet.
  */
 exports.addSnippet = function(snippet) {
-    return persistSnippet(snippet);
+    return this._persistSnippet(snippet);
 };
 
 /**
@@ -52,7 +52,7 @@ exports.addSnippet = function(snippet) {
 exports.getSnippet = function() {
     var snippets = [];
     
-    fs.readdir(STORE_DIR + '/', function(err, files) {
+    /*fs.readdir(STORE_DIR + '/', function(err, files) {
         if(err) throw err;
         for(var file in files) {
             fs.readFile(file, function(err, data) {
@@ -60,8 +60,8 @@ exports.getSnippet = function() {
                 console.log(data); // this is where we should do our JSON.parse
             });
         }
-    });
-    return store.snippets;
+    });*/
+    return snippets;
 };
 
 /**
@@ -74,4 +74,11 @@ exports.getSnippet = function(name) {
     } else {
         // find on disk and construct
     }
+};
+
+/**
+ * Removes a named snippet.
+ */
+exports.removeSnippet = function(name) {
+    return true;    
 };
