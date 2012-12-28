@@ -46,4 +46,5 @@ app.post('/snippets', function(req, res) {
     res.send(400, 'Error adding snippet...');
 });
 
+// start server
 app.listen(3000, function() { console.log('Listening on port 3000'); });
