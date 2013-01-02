@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 snippets
+
+  // form(action="/save", method="post")
+    p
+      label Create a new snippet 
+      input(type='text', placeholder='snippet description', name='snippet-description')
+    p
+      input(type='submit', value='Save')
+
+  ul
+    for snippet in snippets
+      li #{snippet.description}
+    else
+      li No snippets exist, 
+        a(href="/snippet/create") create one

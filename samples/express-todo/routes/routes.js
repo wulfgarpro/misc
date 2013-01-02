@@ -36,3 +36,27 @@ exports.saveTodo = function(req, res) {
 	client.hset("Todo", newTodo.id, newTodo.name);
 	res.redirect("back");
 }
+
+/**
+ * Snippet routes
+ */ 
+exports.snippet = function(request, response) {
+    var snippets = [];
+    client.hgetall("Snippet", function(err, objs) {
+        for(var k in objs) {
+            var newSnippet =  {
+                description: objs[k]
+            };
+            snippets.push(newSnippet);
+        }
+
+        response.render('snippet', {
+            title: 'Snippets',
+            snippets: snippets
+        });
+    })
+}
+
+exports.createSnippet = function(request, response) {
+    response.render('snippet_create', { title: 'Create Snippet' });    
+}

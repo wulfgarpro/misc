@@ -32,6 +32,9 @@ app.get('/about', routes.about);
 app.get('/users', user.list);
 app.get('/todo', routes.todo);
 
+app.get('/snippet', routes.snippet);
+app.get('/snippet/create', routes.createSnippet);
+
 app.post('/save', routes.saveTodo);
 
 http.createServer(app).listen(app.get('port'), function(){

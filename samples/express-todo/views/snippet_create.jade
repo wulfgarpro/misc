@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 create snippet
+  
+  form(action="/save", method="post")
+    p
+      label Snippet title
+      input(type='text', placeholder='snippet description', name='snippet-description')
+    p
+      label Code
+      textarea(name="snippet-code")
+    p
+      input(type='submit', value='Save')
