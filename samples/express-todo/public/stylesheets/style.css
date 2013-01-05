@@ -1,8 +1,12 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.snippet {
+    margin-left: 20px;
 }
 
-a {
-  color: #00B7FF;
+.snippet .title {
+    font-weight: bold;
+}
+
+.snippet .code {
+    font-size: 80%;
+    margin-bottom: 20px;
 }

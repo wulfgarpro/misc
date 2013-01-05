@@ -35,7 +35,8 @@ app.get('/todo', routes.todo);
 app.get('/snippet', routes.snippet);
 app.get('/snippet/create', routes.createSnippet);
 
-app.post('/save', routes.saveTodo);
+//app.post('/save', routes.saveTodo);
+app.post('/save', routes.saveSnippet);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

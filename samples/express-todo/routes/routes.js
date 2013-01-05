@@ -37,6 +37,15 @@ exports.saveTodo = function(req, res) {
 	res.redirect("back");
 }
 
+exports.saveSnippet = function(req, res) {
+    var newSnippet = {};
+    newSnippet.title = req.body['snippet-title'];
+    newSnippet.code = req.body['snippet-code'];
+    newSnippet.id = newSnippet.title.replace(" ", "-");
+    client.hset("Snippet", newSnippet.id, JSON.stringify(newSnippet));
+    res.redirect("/snippet");
+}
+
 /**
  * Snippet routes
  */ 
@@ -44,10 +53,8 @@ exports.snippet = function(request, response) {
     var snippets = [];
     client.hgetall("Snippet", function(err, objs) {
         for(var k in objs) {
-            var newSnippet =  {
-                description: objs[k]
-            };
-            snippets.push(newSnippet);
+            var json = JSON.parse(objs[k]);
+            snippets.push(json);
         }
 
         response.render('snippet', {

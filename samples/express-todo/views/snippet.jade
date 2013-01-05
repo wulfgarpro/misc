@@ -1,18 +1,12 @@
 extends layout
 
 block content
-  h1 snippets
+  .container
+    h1 snippets
 
-  // form(action="/save", method="post")
-    p
-      label Create a new snippet 
-      input(type='text', placeholder='snippet description', name='snippet-description')
-    p
-      input(type='submit', value='Save')
-
-  ul
     for snippet in snippets
-      li #{snippet.description}
+      .snippet
+        .title #{snippet.title}
+        pre.code #{snippet.code}
     else
-      li No snippets exist, 
-        a(href="/snippet/create") create one
+      a(href="/snippet/create") create one

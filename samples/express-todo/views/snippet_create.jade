@@ -1,14 +1,16 @@
 extends layout
 
 block content
-  h1 create snippet
+  .container
+    h1 create snippet
   
-  form(action="/save", method="post")
-    p
-      label Snippet title
-      input(type='text', placeholder='snippet description', name='snippet-description')
-    p
-      label Code
-      textarea(name="snippet-code")
-    p
-      input(type='submit', value='Save')
+    form(action="/save", method="post")
+      p
+        label Snippet title
+        input.span4(type='text', placeholder='snippet title', name='snippet-title', required)
+      p
+        label Code
+        textarea.span6(name="snippet-code", required, rows=4)
+      p
+        button.btn.btn-primary(type='submit') Save
+        a.btn(href="/snippet") Cancel

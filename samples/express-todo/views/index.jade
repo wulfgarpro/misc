@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    h1= title
+    p Welcome to #{title}
+
+    ul
+      li 
+        a(href="/snippet") Snippets
+      li 
+        a(href="/todo") Todos

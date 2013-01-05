@@ -4,6 +4,7 @@ Usage:
 - install redis  
 - start redis with redis-server  
 - terminal to root of this directory  
-- node app  
-- point broswer to localhost:3000/ or localhost:3000/todo
+- npm start
+- point broswer to localhost:3000/ or localhost:3000/snippet
+- create new snippet at localhost:3000/snippet/create
 
