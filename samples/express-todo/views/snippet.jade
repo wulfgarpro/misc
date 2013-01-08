@@ -1,12 +1,29 @@
 extends layout
 
+block scripts
+  script(src='/javascripts/jquery-1.7.1.min.js')
+
 block content
   .container
     h1 snippets
+    hr
 
     for snippet in snippets
       .snippet
+        .edit.pull-right 
+          a(href="/snippet/#{snippet.id}") edit
         .title #{snippet.title}
         pre.code #{snippet.code}
     else
-      a(href="/snippet/create") create one
+      p no snippets exist, 
+        a(href="/snippet/create") create one
+
+  |<script>
+  |  // show and hide the edit link on mouseover
+  |  $('.snippet').on("mouseover", function() {
+  |    $(this).children('.edit').css('display', 'block');
+  |  });
+  |  $('.snippet').on("mouseout", function() {
+  |    $(this).children('.edit').css('display', 'none');
+  |  });
+  |</script>

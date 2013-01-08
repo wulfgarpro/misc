@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .container
+    h1 edit snippet
+  
+    form(action="/snippet", method="post")
+      p
+        label Snippet title
+        input.span4.uneditable-input(
+          type='text', 
+          placeholder='snippet title', 
+          name='snippet-title', 
+          value='#{snippet.title}',
+          required)
+      p
+        label Code
+        textarea.span6(
+          name="snippet-code", 
+          rows=4,
+          required) #{snippet.code}
+      p
+        |<button class="btn btn-primary" type='submit'>Save</button> <a href="/snippet" class="btn">Cancel</a>

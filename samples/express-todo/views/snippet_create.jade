@@ -4,7 +4,7 @@ block content
   .container
     h1 create snippet
   
-    form(action="/save", method="post")
+    form(action="/snippet", method="post")
       p
         label Snippet title
         input.span4(type='text', placeholder='snippet title', name='snippet-title', required)
@@ -12,5 +12,4 @@ block content
         label Code
         textarea.span6(name="snippet-code", required, rows=4)
       p
-        button.btn.btn-primary(type='submit') Save
-        a.btn(href="/snippet") Cancel
+        |<button class="btn btn-primary" type='submit'>Save</button> <a href="/snippet" class="btn">Cancel</a>

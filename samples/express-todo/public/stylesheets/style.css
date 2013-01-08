@@ -1,12 +1,20 @@
 .snippet {
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 .snippet .title {
-    font-weight: bold;
+    font-weight: 300;
+    font-size: 120%;
+}
+
+.snippet .edit {
+    font-weight: 300;
+    font-size: 120%;
+    display: none;
 }
 
 .snippet .code {
     font-size: 80%;
     margin-bottom: 20px;
+    margin-left: 10px;
 }

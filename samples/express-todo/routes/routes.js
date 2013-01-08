@@ -67,3 +67,20 @@ exports.snippet = function(request, response) {
 exports.createSnippet = function(request, response) {
     response.render('snippet_create', { title: 'Create Snippet' });    
 }
+
+exports.editSnippet = function(request, response) {
+    console.log(request.params.id);
+    client.hget("Snippet", request.params.id, function(err, obj) {
+        if(obj) {
+            var json = JSON.parse(obj);
+
+            response.render('snippet_edit', { 
+               title: 'Edit Snippet',
+                snippet: json
+            });  
+        }
+        else {
+            response.render('snippet_error', { title: 'Unable to load snippet' });       
+        }
+    });
+}
