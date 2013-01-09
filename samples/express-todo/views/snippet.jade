@@ -2,6 +2,7 @@ extends layout
 
 block scripts
   script(src='/javascripts/jquery-1.7.1.min.js')
+  script(src='/javascripts/bootstrap/2.2.2/bootstrap.min.js')
 
 block content
   .container
@@ -11,19 +12,51 @@ block content
     for snippet in snippets
       .snippet
         .edit.pull-right 
-          a(href="/snippet/#{snippet.id}") edit
+          a(href="/snippet/#{snippet.id}") edit&nbsp;
+          a(href="#myModal", data-toggle="modal", onclick="markSnippet('#{snippet.id}')") delete
         .title #{snippet.title}
         pre.code #{snippet.code}
     else
       p no snippets exist, 
         a(href="/snippet/create") create one
+ 
+  //Modal
+  #myModal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    .modal-header
+      button.close(type="button", data-dismiss="modal", aria-hidden="true") ×
+      h3#myModalLabel Delete Snippet
+    .modal-body
+      p Are you sure you want to delete this snippet?
+    .modal-footer
+      button.btn(data-dismiss="modal", aria-hidden="true") Cancel
+      button.btn.btn-danger(onclick="deleteSnippet()") Delete
+  
+  script(type='text/javascript')
+    var snippetId = undefined;
 
-  |<script>
-  |  // show and hide the edit link on mouseover
-  |  $('.snippet').on("mouseover", function() {
-  |    $(this).children('.edit').css('display', 'block');
-  |  });
-  |  $('.snippet').on("mouseout", function() {
-  |    $(this).children('.edit').css('display', 'none');
-  |  });
-  |</script>
+    function markSnippet(id) {
+      snippetId = id;
+    }
+
+    // show and hide the edit link on mouseover
+    $('.snippet').on("mouseover", function() {
+      $(this).children('.edit').css('display', 'block');
+    });
+
+    $('.snippet').on("mouseout", function() {
+      $(this).children('.edit').css('display', 'none');
+    });
+
+    function deleteSnippet() {
+      $.ajax({
+        url: "/snippet/" + snippetId,
+        type: "DELETE",
+        cache: false
+      }).done(function(msg) {
+        alert('delete success');  
+      }).fail(function() {
+        alert('delete failed ' + errorThrown);
+      }).always(function() {
+        $('#myModal').modal('hide');  
+      });
+    }

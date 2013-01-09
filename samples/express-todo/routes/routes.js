@@ -69,7 +69,6 @@ exports.createSnippet = function(request, response) {
 }
 
 exports.editSnippet = function(request, response) {
-    console.log(request.params.id);
     client.hget("Snippet", request.params.id, function(err, obj) {
         if(obj) {
             var json = JSON.parse(obj);
@@ -83,4 +82,14 @@ exports.editSnippet = function(request, response) {
             response.render('snippet_error', { title: 'Unable to load snippet' });       
         }
     });
+}
+
+exports.deleteSnippet = function(request, response) {
+    console.log('Received delete request for ' + request.params.id);
+    if(request.params.id) {
+        response.send(200);    
+    }
+    else {
+        response.send(500, { error: 'id not found'});
+    }
 }
