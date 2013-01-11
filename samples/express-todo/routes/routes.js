@@ -85,9 +85,16 @@ exports.editSnippet = function(request, response) {
 }
 
 exports.deleteSnippet = function(request, response) {
-    console.log('Received delete request for ' + request.params.id);
     if(request.params.id) {
-        response.send(200);    
+        client.hdel("Snippet", request.params.id, function(err, obj) {
+            if(!err) {
+                console.log('Deleted ' + request.params.id + ' from the datastore');        
+                response.send(200);
+            } else {
+                response.send(500, { error: 'an error occured deleting from the datastore'});
+            }
+            
+        });
     }
     else {
         response.send(500, { error: 'id not found'});

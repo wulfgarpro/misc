@@ -6,11 +6,21 @@ block scripts
 
 block content
   .container
-    h1 snippets
+    ul.nav.nav-pills.pull-right
+      li
+        a(href="/") home
+      li
+        a(href="/snippet/create") create
+    h1 snippets      
     hr
 
+
+    #successMsg.alert.alert-success.hide
+      button.close(type="button", data-dismiss="alert") x
+      div Snippet deleted successfully
+
     for snippet in snippets
-      .snippet
+      .snippet(data-id="#{snippet.id}")
         .edit.pull-right 
           a(href="/snippet/#{snippet.id}") edit&nbsp;
           a(href="#myModal", data-toggle="modal", onclick="markSnippet('#{snippet.id}')") delete
@@ -19,7 +29,14 @@ block content
     else
       p no snippets exist, 
         a(href="/snippet/create") create one
- 
+    
+    //Progress Bar
+    #progress.hide
+      .progress.progress-striped.active
+        .bar(style="width: 30%;")
+      p(style="text-align:center;margin-top:-15px;padding:0;font-size:90%") Sending request to the server
+      
+
   //Modal
   #myModal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
     .modal-header
@@ -31,6 +48,7 @@ block content
       button.btn(data-dismiss="modal", aria-hidden="true") Cancel
       button.btn.btn-danger(onclick="deleteSnippet()") Delete
   
+  //javascript
   script(type='text/javascript')
     var snippetId = undefined;
 
@@ -48,15 +66,23 @@ block content
     });
 
     function deleteSnippet() {
+      $('#progress').removeClass('hide');
+      $('#myModal').modal('hide');
+
       $.ajax({
         url: "/snippet/" + snippetId,
         type: "DELETE",
         cache: false
       }).done(function(msg) {
-        alert('delete success');  
+        $('div.snippet').each(function(i) {
+          if($(this).data('id') === snippetId) {
+            $(this).remove();
+          }
+        });
+        $('#successMsg').removeClass('hide');  
       }).fail(function() {
         alert('delete failed ' + errorThrown);
       }).always(function() {
-        $('#myModal').modal('hide');  
+        $('#progress').addClass('hide');
       });
     }
