@@ -31,16 +31,15 @@ app.get('/', routes.index);
 app.get('/about', routes.about);
 app.get('/users', user.list);
 app.get('/todo', routes.todo);
-
-
-app.get('/snippet/create', routes.createSnippet);
 app.post('/save', routes.saveTodo);
 
 
-//snippet REST route
+//snippet REST routes
 app.get('/snippet', routes.snippet);
 app.get('/snippet/:id', routes.editSnippet);
+app.get('/snippet/create', routes.createSnippet);
 app.post('/snippet', routes.saveSnippet);
+app.put('/snippet/:id', routes.updateSnippet);
 app.delete('/snippet/:id', routes.deleteSnippet);
 
 http.createServer(app).listen(app.get('port'), function(){

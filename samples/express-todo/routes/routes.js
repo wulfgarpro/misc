@@ -37,15 +37,6 @@ exports.saveTodo = function(req, res) {
 	res.redirect("back");
 }
 
-exports.saveSnippet = function(req, res) {
-    var newSnippet = {};
-    newSnippet.title = req.body['snippet-title'];
-    newSnippet.code = req.body['snippet-code'];
-    newSnippet.id = newSnippet.title.replace(" ", "-");
-    client.hset("Snippet", newSnippet.id, JSON.stringify(newSnippet));
-    res.redirect("/snippet");
-}
-
 /**
  * Snippet routes
  */ 
@@ -59,7 +50,7 @@ exports.snippet = function(request, response) {
 
         response.render('snippet', {
             title: 'Snippets',
-            snippets: snippets
+            snippets: snippets,
         });
     })
 }
@@ -97,6 +88,28 @@ exports.deleteSnippet = function(request, response) {
         });
     }
     else {
+        response.send(500, { error: 'id not found'});
+    }
+}
+
+exports.saveSnippet = function(req, res) {
+    var newSnippet = {};
+    newSnippet.title = req.body['snippet-title'];
+    newSnippet.code = req.body['snippet-code'];
+    newSnippet.id = newSnippet.title.replace(" ", "-");
+    client.hset("Snippet", newSnippet.id, JSON.stringify(newSnippet));
+    res.redirect("/snippet");
+}
+
+exports.updateSnippet = function(request, response) {
+    if(request.params.id) {
+        var newSnippet = {};
+        newSnippet.title = request.body['snippet-title'];
+        newSnippet.code = request.body['snippet-code'];
+        newSnippet.id = request.params.id;
+        client.hset("Snippet", newSnippet.id, JSON.stringify(newSnippet));
+        response.redirect("/snippet");
+    } else {
         response.send(500, { error: 'id not found'});
     }
 }
